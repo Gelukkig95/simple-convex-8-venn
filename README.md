@@ -5,7 +5,7 @@
 
 [![Verify Simple Convex 8-Venn (K=8)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml/badge.svg)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml)
 
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24572392-blue)](https://doi.org/10.5281/zenodo.24572392)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572392.svg)](https://doi.org/10.5281/zenodo.24572392)
 
 ![Simple Convex 8-Venn Diagram of 8 Octagons](simple_convex_8_venn_k8.svg)
 
