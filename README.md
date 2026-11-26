@@ -1,5 +1,7 @@
 # Simple Convex 8-Venn Diagram with 8 Uniform Octagons (k*(8) <= 8)
 
+[![Verify Simple Convex 8-Venn (K=8)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml/badge.svg)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml)
+
 ![Simple Convex 8-Venn Diagram of 8 Octagons](simple_convex_8_venn_k8.svg)
 
 ## Summary
