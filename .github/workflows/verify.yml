@@ -1,0 +1,54 @@
+name: Verify Simple Convex 8-Venn (K=8)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-python:
+    name: Exact Integer & Q^2 Python Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run zero-dependency Z^2 verifier
+        run: python verify_z2_certificate.py CERTIFIED_SIMPLE_8_VENN_k8_Z2.json
+
+      - name: Run independent Q^2 verifier (if present)
+        run: |
+          if [ -f verify_independent_q2.py ]; then
+            python verify_independent_q2.py CERTIFIED_SIMPLE_8_VENN_k8_Z2.json
+          fi
+
+  verify-lean4:
+    name: Lean 4 Kernel Proof Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Audit zero sorry / admit / axiom / native_decide
+        run: |
+          if grep -v '^[[:space:]]*--' SimpleConvex8VennK8.lean | grep -Eq '\b(sorry|admit|native_decide|axiom)\b'; then
+            echo "Forbidden keyword detected in SimpleConvex8VennK8.lean!"
+            exit 1
+          fi
+          echo "Clean audit: zero sorry, admit, axiom, or native_decide."
+
+      - name: Install Lean 4 (elan v4.14.0)
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.14.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Kernel-check SimpleConvex8VennK8.lean
+        run: |
+          lean --version
+          lean SimpleConvex8VennK8.lean
+          echo "Lean 4 kernel verification PASSED (exit 0)!"
