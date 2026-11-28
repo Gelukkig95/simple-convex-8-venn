@@ -5,16 +5,18 @@
 
 Formally verified integer-lattice ($\mathbb{Z}^2$) realizations of simple convex $n$-Venn diagrams establishing new explicit polygon-side upper bounds for $n = 8$ and $n = 9$:
 
-$$k^*(8) \le 8 \qquad \text{and} \qquad k^*(9) \le 25$$
+$$
+k^{\ast}(8) \le 8 \qquad \text{and} \qquad k^{\ast}(9) \le 25
+$$
 
-Both constructions improve upon Grünbaum's (1975) exponential upper bound $k^*(n) \le 2^{n-2}$ ($64$ for $n=8$, $128$ for $n=9$) and are independently certified by exact rational arithmetic and dependency-free **Lean 4 kernel proofs** (zero Mathlib, zero `native_decide`, zero `sorry`).
+Both constructions improve upon Grünbaum's (1975) exponential upper bound $k^{\ast}(n) \le 2^{n-2}$ ($64$ for $n=8$, $128$ for $n=9$) and are independently certified by exact rational arithmetic and dependency-free **Lean 4 kernel proofs** (zero Mathlib, zero `native_decide`, zero `sorry`).
 
 ## Summary of Certified Results
 
-| $n$ | Lower Bound (CRW 2007) | Previous Upper Bound (Grünbaum 1975) | **Certified Upper Bound** | Lattice Box | Topology ($V, E, F$) | Max Pairwise Crossings |
+| $n$ | Lower Bound (CRW 2007) | Previous Upper Bound (Grünbaum 1975) | Certified Upper Bound | Lattice Box | Topology ($V, E, F$) | Max Pairwise Crossings |
 |---:|---:|---:|---:|---|---|---:|
-| **8** | 6 | 64 | **$k^*(8) \le 8$** (8 octagons) | $[-589, 589]^2$ | $V=254,\; E=508,\; F=256$ | 14 |
-| **9** | 8 | 128 | **$k^*(9) \le 25$** (9 uniform 25-gons) | $[-358651, 358651]^2$ | $V=510,\; E=1020,\; F=512$ | 22 |
+| **8** | 6 | 64 | $\mathbf{k^{\ast}(8) \le 8}$ (8 octagons) | $[-589, 589]^2$ | $V=254,\; E=508,\; F=256$ | 14 |
+| **9** | 8 | 128 | $\mathbf{k^{\ast}(9) \le 25}$ (9 uniform 25-gons) | $[-358651, 358651]^2$ | $V=510,\; E=1020,\; F=512$ | 22 |
 
 ## Repository Structure
 
@@ -23,7 +25,7 @@ Both constructions improve upon Grünbaum's (1975) exponential upper bound $k^*(
   - `SimpleConvex8VennK8.lean` — standalone pure Lean 4 kernel certificate (`by decide`).
   - `verify_z2_certificate.py` / `verify_independent_q2.py` — independent exact integer / $\mathbb{Q}^2$ verifiers.
 - **`n9/` (`n = 9`, $K = 25$):**
-  - `n9/CERTIFIED_SIMPLE_9_VENN_k25_Z2.json` — 9 strictly convex integer 25-gons and 512 strict subset witnesses ($S_w = 1$).
+  - `n9/CERTIFIED_SIMPLE_9_VENN_k25_Z2.json` — 9 strictly convex integer 25-gons and 512 strict subset witnesses ($S_{w} = 1$).
   - `n9/SimpleConvex9VennK25.lean` — standalone pure Lean 4 kernel certificate (`by decide`).
   - `n9/verify_9venn_q2.py` — independent pure-$\mathbb{Q}^2$ Python verifier.
   - `n9/figures/` — color and B&W print-ready SVG renderings.
@@ -52,4 +54,4 @@ By the Jordan Curve Theorem, Euler's formula ($F = E - V + 2 = 2^n$), and the Pi
 
 Cite the archived Concept DOI (always resolving to the latest release):
 
-> Jinwon Kim (2026). *Simple Convex 8- and 9-Venn Diagrams ($k^*(8) \le 8$, $k^*(9) \le 25$)*. Zenodo. [https://doi.org/10.5281/zenodo.24572392](https://doi.org/10.5281/zenodo.24572392)
+> Jinwon Kim (2026). *Simple Convex 8- and 9-Venn Diagrams* ($k^{\ast}(8) \le 8$, $k^{\ast}(9) \le 25$). Zenodo. https://doi.org/10.5281/zenodo.24572392
