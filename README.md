@@ -50,8 +50,4 @@ Each Lean 4 certificate proves four finite predicates by definitional kernel red
 
 By the Jordan Curve Theorem, Euler's formula ($F = E - V + 2 = 2^n$), and the Pigeonhole Principle, every Venn region is nonempty and connected.
 
-## Citation
 
-Cite the archived Concept DOI (always resolving to the latest release):
-
-*Simple Convex 8- and 9-Venn Diagrams* ($k^{\ast}(8) \le 8$, $k^{\ast}(9) \le 25$). Zenodo. https://doi.org/10.5281/zenodo.24572392
