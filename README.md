@@ -1,26 +1,55 @@
+﻿# Simple Convex 8- and 9-Venn Diagrams
 
+[![Verify](https://github.com/Gelukkig95/simple-convex-venn/actions/workflows/verify.yml/badge.svg)](https://github.com/Gelukkig95/simple-convex-venn/actions/workflows/verify.yml)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24572392-blue.svg)](https://doi.org/10.5281/zenodo.24572392)
 
+Formally verified integer-lattice ($\mathbb{Z}^2$) realizations of simple convex $n$-Venn diagrams establishing new explicit polygon-side upper bounds for $n = 8$ and $n = 9$:
 
-# Simple Convex 8-Venn Diagram with 8 Uniform Octagons (k*(8) <= 8)
+$$k^*(8) \le 8 \qquad \text{and} \qquad k^*(9) \le 25$$
 
-[![Verify Simple Convex 8-Venn (K=8)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml/badge.svg)](https://github.com/Gelukkig95/simple-convex-8-venn-k8/actions/workflows/verify.yml)
+Both constructions improve upon Grünbaum's (1975) exponential upper bound $k^*(n) \le 2^{n-2}$ ($64$ for $n=8$, $128$ for $n=9$) and are independently certified by exact rational arithmetic and dependency-free **Lean 4 kernel proofs** (zero Mathlib, zero `native_decide`, zero `sorry`).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572392.svg)](https://doi.org/10.5281/zenodo.24572392)
+## Summary of Certified Results
 
-![Simple Convex 8-Venn Diagram of 8 Octagons](simple_convex_8_venn_k8.svg)
+| $n$ | Lower Bound (CRW 2007) | Previous Upper Bound (Grünbaum 1975) | **Certified Upper Bound** | Lattice Box | Topology ($V, E, F$) | Max Pairwise Crossings |
+|---:|---:|---:|---:|---|---|---:|
+| **8** | 6 | 64 | **$k^*(8) \le 8$** (8 octagons) | $[-589, 589]^2$ | $V=254,\; E=508,\; F=256$ | 14 |
+| **9** | 8 | 128 | **$k^*(9) \le 25$** (9 uniform 25-gons) | $[-358651, 358651]^2$ | $V=510,\; E=1020,\; F=512$ | 22 |
 
-## Summary
-Compact integer-lattice (Z^2) realization and standalone verification artifacts certifying **8 strictly convex octagons** forming a **simple monotone 8-Venn diagram** (V = 254 pairwise-distinct transversal crossings, E = 508, F = 256 connected regions).
+## Repository Structure
 
-- **Polygon complexity:** 8 strictly convex octagons (K = 8 sides each)
-- **Compact Z^2 realization:** All 64 vertices lie on Z^2 inside [-589, 589]^2 (uniform scaling denominator D = 9; compact realization, not a proof of global lattice minimality)
-- **Simple arrangement:** Exactly V = 254 distinct transversal crossings, 0 triple points, 0 vertex-on-edge contacts, every pair crosses >= 2 times (max pairwise = 14)
-- **All 256 regions witnessed:** 256 exact integer-scaled witness points (S_w = 2) strictly separating all 256 subsets
-- **Context:** Against Grunbaum (1975) k*(8) <= 64 and Carroll-Ruskey-Weston (2007) k*(8) >= 6, this explicit construction certifies k*(8) <= 8, leaving k*(8) in {6, 7, 8} open.
+- **Root (`n = 8`, $K = 8$):**
+  - `CERTIFIED_SIMPLE_8_VENN_k8_Z2.json` — 8 strictly convex integer octagons and 256 strict subset witnesses.
+  - `SimpleConvex8VennK8.lean` — standalone pure Lean 4 kernel certificate (`by decide`).
+  - `verify_z2_certificate.py` / `verify_independent_q2.py` — independent exact integer / $\mathbb{Q}^2$ verifiers.
+- **`n9/` (`n = 9`, $K = 25$):**
+  - `n9/CERTIFIED_SIMPLE_9_VENN_k25_Z2.json` — 9 strictly convex integer 25-gons and 512 strict subset witnesses ($S_w = 1$).
+  - `n9/SimpleConvex9VennK25.lean` — standalone pure Lean 4 kernel certificate (`by decide`).
+  - `n9/verify_9venn_q2.py` — independent pure-$\mathbb{Q}^2$ Python verifier.
+  - `n9/figures/` — color and B&W print-ready SVG renderings.
 
-## Verification
+## Independent Verification
+
 ```bash
-python verify_z2_certificate.py CERTIFIED_SIMPLE_8_VENN_k8_Z2.json
+# n = 8 (K = 8)
+python3 verify_z2_certificate.py CERTIFIED_SIMPLE_8_VENN_k8_Z2.json
 lean SimpleConvex8VennK8.lean
+
+# n = 9 (K = 25)
+python3 n9/verify_9venn_q2.py n9/CERTIFIED_SIMPLE_9_VENN_k25_Z2.json
+lean n9/SimpleConvex9VennK25.lean
 ```
-SimpleConvex8VennK8.lean (zero sorry, zero Mathlib, zero native_decide) verifies purely inside the Lean 4 kernel (decide) strict simple convexity of all 8 octagons, zero degenerate contacts, exact V = 254 distinct crossings with >= 2 crossings per pair, and strict separation of all 256 witnesses. Classical planar topology (Jordan Curve Theorem + Euler formula F = E - V + 2 = 256 + Pigeonhole Principle) bridges these algebraic invariants to connectedness of all 256 Venn regions.
+
+Each Lean 4 certificate proves four finite predicates by definitional kernel reduction:
+1. Strict counterclockwise convexity of all $n$ polygons.
+2. Zero degenerate contacts, $\ge 2$ crossings per curve pair, and exact total crossings $V = 2^n - 2$.
+3. Strict rational lexicographical ordering of all $V$ crossings (proving 0 triple points).
+4. Strict separation of all $2^n$ subset witness points.
+
+By the Jordan Curve Theorem, Euler's formula ($F = E - V + 2 = 2^n$), and the Pigeonhole Principle, every Venn region is nonempty and connected.
+
+## Citation
+
+Cite the archived Concept DOI (always resolving to the latest release):
+
+> Jinwon Kim (2026). *Simple Convex 8- and 9-Venn Diagrams ($k^*(8) \le 8$, $k^*(9) \le 25$)*. Zenodo. [https://doi.org/10.5281/zenodo.24572392](https://doi.org/10.5281/zenodo.24572392)
