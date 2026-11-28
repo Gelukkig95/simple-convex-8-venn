@@ -43,7 +43,7 @@ lean n9/SimpleConvex9VennK25.lean
 ```
 
 Each Lean 4 certificate proves four finite predicates by definitional kernel reduction:
-1. Strict counterclockwise convexity of all $n$ polygons.
+1. Simple strict convexity (winding number $1$): for every directed edge of all $n$ polygons, all $K-2$ non-incident vertices lie strictly to its left.
 2. Zero degenerate contacts, $\ge 2$ crossings per curve pair, and exact total crossings $V = 2^n - 2$.
 3. Strict rational lexicographical ordering of all $V$ crossings (proving 0 triple points).
 4. Strict separation of all $2^n$ subset witness points.

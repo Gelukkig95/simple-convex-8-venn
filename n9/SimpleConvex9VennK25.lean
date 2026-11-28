@@ -671,15 +671,19 @@ def polyEdges : List Pt → List (Pt × Pt)
   | [] => []
   | p :: ps => edgesAux p (p :: ps)
 
-def convexTriples (v0 v1 : Pt) : List Pt → Bool
-  | [a, b] => orient a b v0 > 0 && orient b v0 v1 > 0
-  | a :: b :: c :: rest => orient a b c > 0 && convexTriples v0 v1 (b :: c :: rest)
-  | _ => false
+def allOtherLeftIdx (i nxt : Nat) (a b : Pt) : Nat → List Pt → Bool
+  | _, [] => true
+  | j, p :: rest =>
+    (j == i || j == nxt || orient a b p > 0) && allOtherLeftIdx i nxt a b (j + 1) rest
 
-def checkPolyConvex : List Pt → Bool
-  | a :: b :: c :: rest =>
-    (a :: b :: c :: rest).length == K && convexTriples a b (a :: b :: c :: rest)
-  | _ => false
+def checkEdgesAllLeft (poly : List Pt) (len : Nat) : Nat → List (Pt × Pt) → Bool
+  | _, [] => true
+  | i, (a, b) :: rest =>
+    allOtherLeftIdx i ((i + 1) % len) a b 0 poly &&
+    checkEdgesAllLeft poly len (i + 1) rest
+
+def checkPolyConvex (poly : List Pt) : Bool :=
+  (poly.length == K) && checkEdgesAllLeft poly K 0 (polyEdges poly)
 
 def checkAllPolys : List (List Pt) → Bool
   | [] => true
